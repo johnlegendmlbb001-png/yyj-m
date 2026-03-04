@@ -157,9 +157,9 @@ export default function UsersTab() {
       {/* ================= HEADER ================= */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">User Management</h2>
+          <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">Users</h2>
           <p className="text-sm text-[var(--muted)] mt-1">
-            Browse and manage all registered users and their roles.
+            Manage all registered users and their roles
           </p>
         </div>
 
@@ -205,7 +205,7 @@ export default function UsersTab() {
             <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center">
               <User size={16} />
             </div>
-            <span className="text-xs font-bold uppercase tracking-wider">New Registrations</span>
+            <span className="text-xs font-bold uppercase tracking-wider">New Users</span>
           </div>
           <div className="grid grid-cols-3 gap-2">
             <StatItem label="1D" value={stats.new["1d"]} loading={statsLoading} />
@@ -468,13 +468,13 @@ export default function UsersTab() {
               </div>
 
               <div className="flex-1 overflow-y-auto p-8 space-y-10">
-                <DrawerSection icon={<IdCard size={18} />} title="Basic Information">
+                <DrawerSection icon={<IdCard size={18} />} title="User Information">
                   <DrawerDetail label="Full Name" value={selectedUser.name} />
                   <DrawerDetail label="User ID" value={selectedUser.userId} />
                   <DrawerDetail label="Member Since" value={new Date(selectedUser.createdAt).toLocaleDateString(undefined, { dateStyle: 'long' })} />
                 </DrawerSection>
 
-                <DrawerSection icon={<Mail size={18} />} title="Contact Details">
+                <DrawerSection icon={<Mail size={18} />} title="Contact Info">
                   <DrawerDetail label="Email Address" value={selectedUser.email} />
                   <DrawerDetail label="Phone Number" value={selectedUser.phone || "Not provided"} />
                 </DrawerSection>
@@ -485,7 +485,7 @@ export default function UsersTab() {
                   <DrawerDetail label="Account Created" value={new Date(selectedUser.createdAt).toLocaleString()} />
                 </DrawerSection>
 
-                <DrawerSection icon={<Shield size={18} />} title="Account Management">
+                <DrawerSection icon={<Shield size={18} />} title="Manage Role">
                   <div className="space-y-4 pt-2">
                     <p className="text-xs font-semibold text-[var(--muted)] px-1">Change User Role</p>
                     <RoleDropdown

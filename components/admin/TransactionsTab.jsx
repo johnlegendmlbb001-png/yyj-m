@@ -96,9 +96,9 @@ export default function TransactionsTab() {
       {/* ================= HEADER ================= */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">Financial Stream</h2>
+          <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">Transactions</h2>
           <p className="text-xs text-[var(--muted)] font-medium mt-1">
-            Real-time transaction monitoring and audit logs
+            Monitor and audit all customer payments
           </p>
         </div>
 
@@ -106,7 +106,7 @@ export default function TransactionsTab() {
           <div className="px-3 py-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-emerald-500 animate-pulse" />
             <span className="text-[10px] font-bold text-[var(--muted)] uppercase">
-              {pagination.total} Live TXNS
+              {pagination.total} Transactions
             </span>
           </div>
           <button
@@ -134,7 +134,7 @@ export default function TransactionsTab() {
         </div>
         <button className="h-11 px-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] flex items-center justify-center gap-2 hover:bg-[var(--foreground)]/[0.05] transition-all sm:w-max">
           <Filter size={14} className="text-[var(--accent)]" />
-          <span className="text-xs font-bold uppercase">Filter Logic</span>
+          <span className="text-xs font-bold uppercase">Filter</span>
         </button>
       </div>
 
@@ -148,7 +148,7 @@ export default function TransactionsTab() {
             className="py-32 flex flex-col items-center justify-center space-y-4"
           >
             <Loader2 className="animate-spin text-[var(--accent)]" size={32} />
-            <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">Synchronizing Records</p>
+            <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">Loading Transactions</p>
           </motion.div>
         ) : (
           <motion.div
@@ -161,12 +161,12 @@ export default function TransactionsTab() {
               <table className="w-full text-left text-sm">
                 <thead className="bg-[var(--foreground)]/[0.03] border-b border-[var(--border)]">
                   <tr className="text-[10px] uppercase font-bold tracking-widest text-[var(--muted)]">
-                    <th className="px-6 py-4">Timeline</th>
-                    <th className="px-6 py-4">Reference</th>
-                    <th className="px-6 py-4">Identity</th>
-                    <th className="px-6 py-4">Category</th>
+                    <th className="px-6 py-4">Date</th>
+                    <th className="px-6 py-4">Order ID</th>
+                    <th className="px-6 py-4">Customer</th>
+                    <th className="px-6 py-4">Game</th>
                     <th className="px-6 py-4">Status</th>
-                    <th className="px-6 py-4 text-right">Value</th>
+                    <th className="px-6 py-4 text-right">Amount</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[var(--border)]">
@@ -267,7 +267,7 @@ export default function TransactionsTab() {
             {!transactions.length && (
               <div className="py-20 text-center border border-dashed border-[var(--border)] rounded-[2rem]">
                 <Hash className="mx-auto text-[var(--muted)]/20 mb-4" size={48} />
-                <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">Transaction Stream Empty</p>
+                <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">No Transactions Found</p>
               </div>
             )}
 
@@ -275,7 +275,7 @@ export default function TransactionsTab() {
             {pagination.totalPages > 1 && (
               <div className="flex items-center justify-between pt-6 border-t border-[var(--border)]">
                 <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase">
-                  Listing <b className="text-[var(--foreground)]">{pagination.page}</b> / {pagination.totalPages}
+                  Page <b className="text-[var(--foreground)]">{pagination.page}</b> / {pagination.totalPages}
                 </p>
                 <div className="flex gap-2">
                   <button
@@ -283,14 +283,14 @@ export default function TransactionsTab() {
                     disabled={page === 1}
                     className="px-5 py-2.5 rounded-xl border border-[var(--border)] text-[10px] font-bold uppercase text-[var(--muted)]/60 hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-20 transition-all font-mono"
                   >
-                    PREV
+                    Previous
                   </button>
                   <button
                     onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
                     disabled={page === pagination.totalPages}
                     className="px-5 py-2.5 rounded-xl border border-[var(--border)] text-[10px] font-bold uppercase text-[var(--muted)]/60 hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-20 transition-all font-mono"
                   >
-                    NEXT
+                    Next
                   </button>
                 </div>
               </div>
@@ -320,8 +320,8 @@ export default function TransactionsTab() {
               <div className="p-8 border-b border-[var(--border)] bg-gradient-to-r from-[var(--foreground)]/[0.02] to-transparent">
                 <div className="flex items-start justify-between mb-8">
                   <div className="space-y-1">
-                    <p className="text-[10px] font-bold text-[var(--accent)] uppercase tracking-widest">Transaction Verified</p>
-                    <h3 className="text-2xl font-black uppercase italic tracking-tighter text-[var(--foreground)]">Payment Report</h3>
+                    <p className="text-[10px] font-bold text-[var(--accent)] uppercase tracking-widest">Transaction Details</p>
+                    <h3 className="text-2xl font-black uppercase italic tracking-tighter text-[var(--foreground)]">Summary</h3>
                   </div>
                   <button
                     onClick={() => setSelectedTx(null)}
@@ -333,7 +333,7 @@ export default function TransactionsTab() {
 
                 <div className="flex items-center justify-between p-6 rounded-3xl bg-[var(--accent)]/5 border border-[var(--accent)]/10">
                   <div>
-                    <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest mb-1">Settlement Amount</p>
+                    <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest mb-1">Total Amount</p>
                     <span className="text-3xl font-black text-emerald-500 tabular-nums">₹{selectedTx.price}</span>
                   </div>
                   {(() => {
@@ -349,31 +349,31 @@ export default function TransactionsTab() {
               </div>
 
               <div className="flex-1 overflow-y-auto p-8 space-y-10">
-                <DrawerSection icon={<Gamepad2 size={16} />} title="Service Node">
-                  <DrawerDetail label="Platform Source" value={selectedTx.gameSlug} emphasize />
-                  <DrawerDetail label="Asset Profile" value={selectedTx.itemName} />
-                  <DrawerDetail label="Asset Signature" value={selectedTx.itemSlug} />
+                <DrawerSection icon={<Gamepad2 size={16} />} title="Item Details">
+                  <DrawerDetail label="Game" value={selectedTx.gameSlug} emphasize />
+                  <DrawerDetail label="Item Name" value={selectedTx.itemName} />
+                  <DrawerDetail label="Item ID" value={selectedTx.itemSlug} />
                 </DrawerSection>
 
-                <DrawerSection icon={<Smartphone size={16} />} title="Terminal Link">
-                  <DrawerDetail label="Player Protocol" value={selectedTx.playerId} emphasize />
-                  <DrawerDetail label="Sector Node" value={selectedTx.zoneId || "GLOBAL"} />
+                <DrawerSection icon={<Smartphone size={16} />} title="Account Details">
+                  <DrawerDetail label="Player ID" value={selectedTx.playerId} emphasize />
+                  <DrawerDetail label="Zone ID" value={selectedTx.zoneId || "GLOBAL"} />
                 </DrawerSection>
 
-                <DrawerSection icon={<CreditCard size={16} />} title="Financial Protocol">
-                  <DrawerDetail label="Settlement Path" value={selectedTx.paymentMethod} />
-                  <DrawerDetail label="Gateway Status" value={selectedTx.paymentStatus} emphasize />
-                  <DrawerDetail label="Fulfillment Node" value={selectedTx.topupStatus} />
+                <DrawerSection icon={<CreditCard size={16} />} title="Payment Info">
+                  <DrawerDetail label="Payment Method" value={selectedTx.paymentMethod} />
+                  <DrawerDetail label="Payment Status" value={selectedTx.paymentStatus} emphasize />
+                  <DrawerDetail label="Topup Status" value={selectedTx.topupStatus} />
                 </DrawerSection>
 
-                <DrawerSection icon={<User size={16} />} title="Authorized Entity">
-                  <DrawerDetail label="Registry Email" value={selectedTx.email || "GUEST"} />
-                  <DrawerDetail label="Comms Channel" value={selectedTx.phone || "UNLINKED"} />
-                  <DrawerDetail label="Sync Timestamp" value={new Date(selectedTx.createdAt).toLocaleString()} />
+                <DrawerSection icon={<User size={16} />} title="Customer Details">
+                  <DrawerDetail label="Customer Email" value={selectedTx.email || "GUEST"} />
+                  <DrawerDetail label="Phone" value={selectedTx.phone || "UNLINKED"} />
+                  <DrawerDetail label="Date" value={new Date(selectedTx.createdAt).toLocaleString()} />
                 </DrawerSection>
 
                 <div className="pt-6 border-t border-[var(--border)] opacity-20">
-                  <p className="text-[8px] font-mono uppercase tracking-[0.4em] text-center text-[var(--foreground)]">Reference ID: {selectedTx.orderId.toUpperCase()}</p>
+                  <p className="text-[8px] font-mono uppercase tracking-[0.4em] text-center text-[var(--foreground)]">Order ID: {selectedTx.orderId.toUpperCase()}</p>
                 </div>
               </div>
             </motion.div>

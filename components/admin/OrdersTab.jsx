@@ -165,9 +165,9 @@ export default function OrdersTab() {
       {/* ================= HEADER ================= */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
         <div>
-          <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">Active Deployments</h2>
+          <h2 className="text-xl font-bold tracking-tight text-[var(--foreground)]">Orders</h2>
           <p className="text-xs text-[var(--muted)] font-medium mt-1">
-            Analyze, verify, and fulfill customer order packets
+            View and manage customer orders
           </p>
         </div>
 
@@ -175,7 +175,7 @@ export default function OrdersTab() {
           <div className="px-3 py-1.5 rounded-xl bg-[var(--foreground)]/[0.03] border border-[var(--border)] flex items-center gap-2">
             <span className="w-1.5 h-1.5 rounded-full bg-[var(--accent)] animate-pulse" />
             <span className="text-[10px] font-bold text-[var(--muted)] uppercase">
-              {pagination.total} Processed
+              {pagination.total} Orders
             </span>
           </div>
           <button
@@ -226,7 +226,7 @@ export default function OrdersTab() {
               setPage(1);
               setSearch(e.target.value);
             }}
-            placeholder="Search by Order ID, Email, or Game Platform..."
+            placeholder="Search by Order ID, Email, or Game..."
             className="w-full h-11 pl-11 pr-4 rounded-xl border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-sm focus:border-[var(--accent)]/50 outline-none transition-all placeholder:text-[var(--muted)]/40"
           />
         </div>
@@ -242,7 +242,7 @@ export default function OrdersTab() {
               }}
               className="w-full h-10 pl-9 pr-3 rounded-lg border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-xs font-bold uppercase focus:border-[var(--accent)]/50 outline-none appearance-none cursor-pointer"
             >
-              <option value="" className="bg-[var(--card)]">All States</option>
+              <option value="" className="bg-[var(--card)]">All Status</option>
               <option value="pending" className="bg-[var(--card)]">Pending</option>
               <option value="success" className="bg-[var(--card)]">Success</option>
               <option value="failed" className="bg-[var(--card)]">Failed</option>
@@ -251,7 +251,7 @@ export default function OrdersTab() {
           </div>
 
           <input
-            placeholder="Game Slug"
+            placeholder="Game Name"
             value={filters.gameSlug}
             onChange={(e) => {
               setPage(1);
@@ -287,7 +287,7 @@ export default function OrdersTab() {
             }}
             className="h-10 rounded-lg border border-[var(--border)] bg-[var(--foreground)]/[0.02] text-[var(--foreground)] text-[10px] font-black uppercase tracking-widest hover:bg-[var(--foreground)]/[0.05] transition-all"
           >
-            Reset Matrix
+            Reset Filters
           </button>
         </div>
       </div>
@@ -302,7 +302,7 @@ export default function OrdersTab() {
             className="py-32 flex flex-col items-center justify-center space-y-4"
           >
             <Loader2 className="animate-spin text-[var(--accent)]" size={32} />
-            <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-[0.2em]">Syncing Order Records</p>
+            <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-[0.2em]">Loading Orders</p>
           </motion.div>
         ) : (
           <motion.div
@@ -315,11 +315,11 @@ export default function OrdersTab() {
               <table className="w-full text-left text-sm">
                 <thead className="bg-[var(--foreground)]/[0.03] border-b border-[var(--border)]">
                   <tr className="text-[10px] uppercase font-bold tracking-widest text-[var(--muted)]">
-                    <th className="px-6 py-4">Protocol</th>
-                    <th className="px-6 py-4">Timeline</th>
-                    <th className="px-6 py-4">Target Item</th>
-                    <th className="px-6 py-4">Value</th>
-                    <th className="px-6 py-4">Status Command</th>
+                    <th className="px-6 py-4">Game</th>
+                    <th className="px-6 py-4">Date</th>
+                    <th className="px-6 py-4">Item</th>
+                    <th className="px-6 py-4">Price</th>
+                    <th className="px-6 py-4">Status</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[var(--border)]">
@@ -432,7 +432,7 @@ export default function OrdersTab() {
             {!orders.length && (
               <div className="py-20 text-center border border-dashed border-[var(--border)] rounded-[2rem]">
                 <ShoppingBag className="mx-auto text-[var(--muted)]/20 mb-4" size={48} />
-                <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">Deployment Queue Clear</p>
+                <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase tracking-[0.2em]">No Orders Found</p>
               </div>
             )}
 
@@ -440,7 +440,7 @@ export default function OrdersTab() {
             {pagination.totalPages > 1 && (
               <div className="flex items-center justify-between pt-6 border-t border-[var(--border)]">
                 <p className="text-[10px] font-bold text-[var(--muted)]/40 uppercase">
-                  Batch <b className="text-[var(--foreground)]">{pagination.page}</b> / {pagination.totalPages}
+                  Page <b className="text-[var(--foreground)]">{pagination.page}</b> / {pagination.totalPages}
                 </p>
                 <div className="flex gap-2">
                   <button
@@ -448,14 +448,14 @@ export default function OrdersTab() {
                     disabled={page === 1}
                     className="px-5 py-2.5 rounded-xl border border-[var(--border)] text-[10px] font-bold uppercase text-[var(--muted)]/60 hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-20 transition-all font-mono"
                   >
-                    RETRIEVE PREV
+                    Previous
                   </button>
                   <button
                     onClick={() => setPage((p) => Math.min(pagination.totalPages, p + 1))}
                     disabled={page === pagination.totalPages}
                     className="px-5 py-2.5 rounded-xl border border-[var(--border)] text-[10px] font-bold uppercase text-[var(--muted)]/60 hover:text-[var(--foreground)] hover:bg-[var(--foreground)]/[0.05] disabled:opacity-20 transition-all font-mono"
                   >
-                    RETRIEVE NEXT
+                    Next
                   </button>
                 </div>
               </div>
@@ -485,8 +485,8 @@ export default function OrdersTab() {
               <div className="p-8 border-b border-[var(--border)] bg-gradient-to-r from-[var(--foreground)]/[0.02] to-transparent">
                 <div className="flex items-start justify-between mb-8">
                   <div className="space-y-1">
-                    <p className="text-[10px] font-bold text-[var(--accent)] uppercase tracking-widest">Order Verification</p>
-                    <h3 className="text-2xl font-black uppercase italic tracking-tighter text-[var(--foreground)]">Mission Brief</h3>
+                    <p className="text-[10px] font-bold text-[var(--accent)] uppercase tracking-widest">Order Details</p>
+                    <h3 className="text-2xl font-black uppercase italic tracking-tighter text-[var(--foreground)]">Summary</h3>
                   </div>
                   <button
                     onClick={() => setSelectedOrder(null)}
@@ -498,7 +498,7 @@ export default function OrdersTab() {
 
                 <div className="flex items-center justify-between p-6 rounded-3xl bg-[var(--foreground)]/[0.02] border border-[var(--border)]">
                   <div>
-                    <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest mb-1">Settlement</p>
+                    <p className="text-[10px] font-bold text-[var(--muted)] uppercase tracking-widest mb-1">Price</p>
                     <span className="text-3xl font-black text-emerald-500 tabular-nums">₹{selectedOrder.price}</span>
                   </div>
                   <StatusDropdown
@@ -517,32 +517,32 @@ export default function OrdersTab() {
               </div>
 
               <div className="flex-1 overflow-y-auto p-8 space-y-10">
-                <DrawerSection icon={<Gamepad2 size={16} />} title="Service Objective">
-                  <DrawerDetail label="Platform" value={selectedOrder.gameSlug} emphasize />
-                  <DrawerDetail label="Asset Identity" value={selectedOrder.itemName} />
-                  <DrawerDetail label="Registry Slug" value={selectedOrder.itemSlug} />
+                <DrawerSection icon={<Gamepad2 size={16} />} title="Item Details">
+                  <DrawerDetail label="Game" value={selectedOrder.gameSlug} emphasize />
+                  <DrawerDetail label="Item" value={selectedOrder.itemName} />
+                  <DrawerDetail label="Slug" value={selectedOrder.itemSlug} />
                 </DrawerSection>
 
-                <DrawerSection icon={<Smartphone size={16} />} title="Terminal Link">
-                  <DrawerDetail label="User Protocol ID" value={selectedOrder.playerId} emphasize />
-                  <DrawerDetail label="Source IP" value={selectedOrder.ip} />
-                  <DrawerDetail label="Zone Sector" value={selectedOrder.zoneId || "GLOBAL"} />
+                <DrawerSection icon={<Smartphone size={16} />} title="Account Details">
+                  <DrawerDetail label="Player ID" value={selectedOrder.playerId} emphasize />
+                  <DrawerDetail label="IP Address" value={selectedOrder.ip} />
+                  <DrawerDetail label="Zone ID" value={selectedOrder.zoneId || "GLOBAL"} />
                 </DrawerSection>
 
-                <DrawerSection icon={<CreditCard size={16} />} title="Financial Protocol">
-                  <DrawerDetail label="Gateway Path" value={selectedOrder.paymentMethod} />
-                  <DrawerDetail label="Fund Status" value={selectedOrder.paymentStatus} emphasize />
-                  <DrawerDetail label="Provision Status" value={selectedOrder.topupStatus} />
+                <DrawerSection icon={<CreditCard size={16} />} title="Payment Info">
+                  <DrawerDetail label="Payment Method" value={selectedOrder.paymentMethod} />
+                  <DrawerDetail label="Payment Status" value={selectedOrder.paymentStatus} emphasize />
+                  <DrawerDetail label="Topup Status" value={selectedOrder.topupStatus} />
                 </DrawerSection>
 
-                <DrawerSection icon={<User size={16} />} title="Authorized Entity">
-                  <DrawerDetail label="Comm Signal" value={selectedOrder.email || "GUEST"} />
-                  <DrawerDetail label="Phone Link" value={selectedOrder.phone || "N/A"} />
-                  <DrawerDetail label="Timestamp" value={new Date(selectedOrder.createdAt).toLocaleString()} />
+                <DrawerSection icon={<User size={16} />} title="Customer Info">
+                  <DrawerDetail label="Email" value={selectedOrder.email || "GUEST"} />
+                  <DrawerDetail label="Phone" value={selectedOrder.phone || "N/A"} />
+                  <DrawerDetail label="Date" value={new Date(selectedOrder.createdAt).toLocaleString()} />
                 </DrawerSection>
 
                 <div className="pt-6 border-t border-[var(--border)] opacity-20">
-                  <p className="text-[8px] font-mono uppercase tracking-[0.4em] text-center text-[var(--foreground)]">Deployment ID: {selectedOrder.orderId.toUpperCase()}</p>
+                  <p className="text-[8px] font-mono uppercase tracking-[0.4em] text-center text-[var(--foreground)]">Order ID: {selectedOrder.orderId.toUpperCase()}</p>
                 </div>
               </div>
             </motion.div>
