@@ -51,7 +51,9 @@ export default function Header() {
           setUser(data.user);
           setImgError(false); // Reset error on new user
         } else {
-          localStorage.removeItem("token");
+          // Clear everything if token is invalid
+          const keysToRemove = ["token", "email", "phone", "userName", "userId", "avatar", "walletBalance"];
+          keysToRemove.forEach(key => localStorage.removeItem(key));
         }
       })
       .finally(() => setLoading(false));
@@ -60,6 +62,12 @@ export default function Header() {
   // ---------------- LOGOUT ----------------
   const handleLogout = () => {
     localStorage.removeItem("token");
+    localStorage.removeItem("email");
+    localStorage.removeItem("phone");
+    localStorage.removeItem("userName");
+    localStorage.removeItem("userId");
+    localStorage.removeItem("avatar");
+    localStorage.removeItem("walletBalance");
     setUser(null);
     setImgError(false);
     window.location.href = "/";
