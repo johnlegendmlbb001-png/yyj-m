@@ -14,7 +14,7 @@ export async function POST(req: Request) {
   formData.append("remark1", "wallet-topup");
   formData.append("remark2", "upi");
 
-  const resp = await fetch(`https://xyzpay.site/api/create-order`, {
+  const resp = await fetch("https://xyzpay.site/api/create-order", {
     method: "POST",
     headers: { "Content-Type": "application/x-www-form-urlencoded" },
     body: formData.toString(),
