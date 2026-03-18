@@ -100,7 +100,7 @@ export async function POST(req: Request) {
     formData.append("order_id", orderId);
 
     const resp = await fetch(
-      "https://chuimei-pe.in/api/check-order-status",
+      `${process.env.XTRA_USER_TOKEN_URL}/api/check-order-status`,
       {
         method: "POST",
         headers: { "Content-Type": "application/x-www-form-urlencoded" },

@@ -19,7 +19,7 @@ export async function POST(req: Request) {
     formData.append("user_token", process.env.XTRA_USER_TOKEN!);
     formData.append("order_id", orderId);
 
-    const resp = await fetch("https://chuimei-pe.in/api/check-order-status", {
+    const resp = await fetch(`${process.env.XTRA_USER_TOKEN_URL}/api/check-order-status`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: formData.toString(),

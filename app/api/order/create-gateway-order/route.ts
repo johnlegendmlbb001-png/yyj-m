@@ -229,7 +229,7 @@ export async function POST(req: Request) {
       `${process.env.NEXT_PUBLIC_BASE_URLU}/payment/topup-complete`
     );
 
-    const resp = await fetch("https://chuimei-pe.in/api/create-order", {
+    const resp = await fetch(`${process.env.XTRA_USER_TOKEN_URL}/api/create-order`, {
       method: "POST",
       headers: { "Content-Type": "application/x-www-form-urlencoded" },
       body: formData.toString(),
