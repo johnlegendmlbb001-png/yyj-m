@@ -197,7 +197,7 @@ export default function OrdersTab() {
       </div>
 
       {/* ================= STATS CARDS ================= */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="flex flex-col gap-2">
         <OrderStatCard
           period="Volume"
           items={[
@@ -343,10 +343,13 @@ export default function OrdersTab() {
                       >
                         <td className="px-6 py-4">
                           <div className="flex items-center gap-3">
-                            <div className="w-8 h-8 rounded-lg bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--accent)]">
-                              <Gamepad2 size={16} />
+                            <div className="w-10 h-10 rounded-xl bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--accent)]">
+                              <Gamepad2 size={20} />
                             </div>
-                            <span className="text-[var(--foreground)] font-bold uppercase text-xs">{o.gameSlug}</span>
+                            <div className="flex flex-col">
+                              <span className="text-[var(--foreground)] font-bold uppercase text-xs">{o.gameSlug}</span>
+                              <span className="text-[10px] text-[var(--muted)]/60 font-medium lowercase truncate max-w-[150px]">{o.email || "Guest"}</span>
+                            </div>
                           </div>
                         </td>
                         <td className="px-6 py-4">
@@ -395,28 +398,36 @@ export default function OrdersTab() {
                     animate={{ opacity: 1, scale: 1 }}
                     transition={{ delay: idx * 0.03 }}
                     onClick={() => setSelectedOrder(o)}
-                    className="p-5 rounded-[1.8rem] border border-[var(--border)] bg-[var(--card)] active:bg-[var(--foreground)]/[0.05] transition-all"
+                    className="relative p-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] active:bg-[var(--foreground)]/[0.04] transition-all group"
                   >
-                    <div className="flex justify-between items-start mb-4">
-                      <div className="flex items-center gap-3">
-                        <div className="w-8 h-8 rounded-lg bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--accent)]">
-                          <Gamepad2 size={16} />
+                    <div className="flex justify-between items-center mb-3 relative">
+                      <div className="flex items-center gap-2.5 min-w-0">
+                        <div className="w-9 h-9 rounded-xl bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--accent)] transition-transform group-active:scale-90 shadow-sm shrink-0">
+                          <Gamepad2 size={18} />
                         </div>
-                        <p className="font-bold text-[var(--foreground)] uppercase text-xs tracking-tight">{o.gameSlug}</p>
+                        <div className="flex flex-col overflow-hidden">
+                          <p className="font-bold text-[var(--foreground)] uppercase text-[11px] tracking-tight truncate">{o.gameSlug}</p>
+                          <p className="text-[10px] text-[var(--muted)]/60 font-medium lowercase truncate max-w-[140px]">{o.email || "Guest"}</p>
+                        </div>
                       </div>
-                      <span className="text-lg font-black text-emerald-500">₹{o.price}</span>
+                      <div className="flex flex-col items-end flex-shrink-0">
+                        <span className="text-lg font-black text-emerald-500 tabular-nums leading-none">₹{o.price}</span>
+                        <span className="text-[8px] font-bold text-[var(--muted)]/40 uppercase tracking-widest mt-1">{o.paymentMethod || "UPI"}</span>
+                      </div>
                     </div>
 
-                    <div className="space-y-3">
-                      <div>
-                        <p className="text-[11px] font-medium text-[var(--foreground)]/60 line-clamp-1 italic">"{o.itemName}"</p>
-                        <p className="text-[9px] font-mono text-[var(--muted)] mt-1 uppercase">{o.orderId}</p>
+                    <div className="space-y-3 relative">
+                      <div className="px-3 py-2 rounded-xl bg-[var(--foreground)]/[0.02] border border-[var(--border)]/50">
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="text-[10px] font-bold text-[var(--foreground)]/70 truncate italic">"{o.itemName}"</p>
+                          <span className="text-[8px] font-mono text-[var(--muted)]/40 uppercase truncate shrink-0">{o.orderId}</span>
+                        </div>
                       </div>
 
-                      <div className="flex items-center justify-between gap-4 pt-1" onClick={(e) => e.stopPropagation()}>
-                        <div className="flex items-center gap-2">
-                          <Calendar size={12} className="text-[var(--muted)]/40" />
+                      <div className="flex items-center justify-between gap-4" onClick={(e) => e.stopPropagation()}>
+                        <div className="flex flex-col">
                           <span className="text-[10px] font-bold text-[var(--muted)]/60">{new Date(o.createdAt).toLocaleDateString()}</span>
+                          <span className="text-[8px] font-medium text-[var(--muted)]/40">{new Date(o.createdAt).toLocaleTimeString()}</span>
                         </div>
 
                         <StatusDropdown
@@ -611,10 +622,10 @@ function StatusDropdown({ value, onChange, options, disabled, compact }) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 4 }}
-            exit={{ opacity: 0, scale: 0.95, y: -10 }}
-            className="absolute z-[1200] right-0 w-full min-w-[140px] rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-2xl p-1 overflow-hidden backdrop-blur-xl"
+            initial={{ opacity: 0, scale: 0.95, y: 10 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            exit={{ opacity: 0, scale: 0.95, y: 10 }}
+            className="absolute z-[2000] right-0 bottom-full mb-1 w-[150px] rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-2xl p-1 overflow-hidden backdrop-blur-xl"
           >
             {options.map((option) => (
               <button
@@ -668,21 +679,21 @@ function DrawerDetail({ label, value, emphasize }) {
 
 function OrderStatCard({ period, items, icon, color, loading }) {
   return (
-    <div className="p-5 rounded-[1.8rem] border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm space-y-4">
-      <div className={`flex items-center gap-2 ${color}`}>
-        <div className={`w-8 h-8 rounded-lg bg-current/10 flex items-center justify-center`}>
+    <div className="p-2.5 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-4 relative overflow-hidden group">
+      <div className={`flex items-center gap-2.5 min-w-[90px] md:min-w-[120px] shrink-0 ${color}`}>
+        <div className={`w-8 h-8 rounded-xl bg-current/10 flex items-center justify-center transition-transform group-hover:scale-110`}>
           {icon}
         </div>
-        <span className="text-[10px] font-black uppercase tracking-[0.2em]">{period}</span>
+        <span className="text-[10px] font-black uppercase tracking-wider opacity-80">{period}</span>
       </div>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="flex-1 grid grid-cols-3 gap-2">
         {items.map((item, i) => (
-          <div key={i} className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-xl p-3 flex flex-col items-center justify-center relative overflow-hidden">
-            <span className="text-[9px] font-bold text-[var(--muted)]/40 uppercase mb-1">{item.label}</span>
+          <div key={i} className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-lg p-2 flex flex-col items-center justify-center relative overflow-hidden">
+            <span className="text-[8px] font-black text-[var(--muted)]/40 uppercase mb-0.5">{item.label}</span>
             {loading ? (
-              <div className="h-5 w-12 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
+              <div className="h-4 w-8 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
             ) : (
-              <span className="text-sm font-black text-[var(--foreground)] tracking-tight tabular-nums">{item.value}</span>
+              <span className="text-sm font-black text-[var(--foreground)] tracking-tighter tabular-nums">{item.value}</span>
             )}
           </div>
         ))}

@@ -183,16 +183,16 @@ export default function UsersTab() {
       </div>
 
       {/* ================= STATS CARDS ================= */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="flex flex-col gap-2">
         {/* Active Users Stats */}
-        <div className="p-5 rounded-[1.5rem] border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm space-y-4">
-          <div className="flex items-center gap-2 text-[var(--accent)]">
-            <div className="w-8 h-8 rounded-lg bg-[var(--accent)]/10 flex items-center justify-center">
-              <Users size={16} />
+        <div className="p-2.5 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-4 relative overflow-hidden group">
+          <div className="flex items-center gap-2.5 min-w-[90px] md:min-w-[120px] shrink-0">
+            <div className="w-8 h-8 rounded-xl bg-[var(--accent)]/10 flex items-center justify-center text-[var(--accent)] transition-transform group-hover:scale-110">
+              <Users size={14} />
             </div>
-            <span className="text-xs font-bold uppercase tracking-wider">Active Users</span>
+            <span className="text-[10px] font-black uppercase tracking-wider text-[var(--accent)]/80">Active</span>
           </div>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="flex-1 grid grid-cols-3 gap-2">
             <StatItem label="1D" value={stats.active["1d"]} loading={statsLoading} />
             <StatItem label="7D" value={stats.active["7d"]} loading={statsLoading} />
             <StatItem label="30D" value={stats.active["30d"]} loading={statsLoading} />
@@ -200,14 +200,14 @@ export default function UsersTab() {
         </div>
 
         {/* New Users Stats */}
-        <div className="p-5 rounded-[1.5rem] border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm space-y-4">
-          <div className="flex items-center gap-2 text-indigo-500">
-            <div className="w-8 h-8 rounded-lg bg-indigo-500/10 flex items-center justify-center">
-              <User size={16} />
+        <div className="p-2.5 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-4 relative overflow-hidden group">
+          <div className="flex items-center gap-2.5 min-w-[90px] md:min-w-[120px] shrink-0">
+            <div className="w-8 h-8 rounded-xl bg-indigo-500/10 flex items-center justify-center text-indigo-500 transition-transform group-hover:scale-110">
+              <User size={14} />
             </div>
-            <span className="text-xs font-bold uppercase tracking-wider">New Users</span>
+            <span className="text-[10px] font-black uppercase tracking-wider text-indigo-500/80">New</span>
           </div>
-          <div className="grid grid-cols-3 gap-2">
+          <div className="flex-1 grid grid-cols-3 gap-2">
             <StatItem label="1D" value={stats.new["1d"]} loading={statsLoading} />
             <StatItem label="7D" value={stats.new["7d"]} loading={statsLoading} />
             <StatItem label="30D" value={stats.new["30d"]} loading={statsLoading} />
@@ -260,13 +260,12 @@ export default function UsersTab() {
             <div className="hidden lg:block rounded-[1.5rem] overflow-hidden border border-[var(--border)] bg-[var(--card)]">
               <table className="w-full text-left text-sm">
                 <thead className="bg-[var(--foreground)]/[0.03] border-b border-[var(--border)] text-[var(--muted)]">
-                  <tr className="text-xs font-semibold">
-                    <th className="px-6 py-4">User</th>
-                    <th className="px-6 py-4">Contact</th>
-                    <th className="px-6 py-4">Role</th>
-                    <th className="px-6 py-4">Last Active</th>
-                    <th className="px-6 py-4">Joined Date</th>
-                    <th className="px-6 py-4 text-right">Actions</th>
+                  <tr className="text-[10px] uppercase font-bold tracking-widest text-[var(--muted)]">
+                    <th className="px-6 py-4">User Info</th>
+                    <th className="px-6 py-4">Identification</th>
+                    <th className="px-6 py-4">Role Status</th>
+                    <th className="px-6 py-4">Activity</th>
+                    <th className="px-6 py-4 text-right">Access Control</th>
                   </tr>
                 </thead>
                 <tbody className="divide-y divide-[var(--border)]">
@@ -283,35 +282,32 @@ export default function UsersTab() {
                         <div className="flex items-center gap-3">
                           <Avatar user={u} />
                           <div className="flex flex-col">
-                            <span className="text-[var(--foreground)] font-semibold text-sm">{u.name}</span>
-                            <span className="text-[11px] text-[var(--muted)]/60 font-mono truncate max-w-[120px]">{u.userId}</span>
+                            <span className="text-[var(--foreground)] font-bold text-xs uppercase tracking-tight">{u.name}</span>
+                            <span className="text-[10px] text-[var(--muted)]/50 font-medium lowercase truncate max-w-[150px]">{u.email}</span>
                           </div>
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <div className="flex flex-col text-[var(--muted)]">
-                          <span className="text-[var(--foreground)] font-medium text-xs">{u.email}</span>
-                          <span className="text-[11px] mt-0.5">{u.phone || "No phone linked"}</span>
+                        <div className="flex flex-col">
+                          <span className="text-[var(--foreground)] font-black text-[10px] uppercase tracking-widest tabular-nums font-mono">{u.userId}</span>
+                          <span className="text-[9px] text-[var(--muted)]/40 font-bold uppercase mt-0.5">Static ID</span>
                         </div>
                       </td>
                       <td className="px-6 py-4">
-                        <span className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border text-[11px] font-semibold tracking-wide capitalize ${getRoleClass(u.userType)}`}>
+                        <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border text-[9px] font-black uppercase tracking-wider ${getRoleClass(u.userType)}`}>
                           {getRoleIcon(u.userType)}
                           {u.userType}
                         </span>
                       </td>
                       <td className="px-6 py-4">
                         <div className="flex flex-col">
-                          <span className="text-xs font-semibold text-[var(--foreground)]">
+                          <span className="text-xs font-black text-[var(--accent)] tracking-tight">
                             {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleDateString() : "Never"}
                           </span>
-                          <span className="text-[10px] text-[var(--muted)]">
-                            {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' }) : "-"}
+                          <span className="text-[9px] font-bold text-[var(--muted)]/40 uppercase tracking-widest mt-0.5">
+                            Active
                           </span>
                         </div>
-                      </td>
-                      <td className="px-6 py-4 text-xs font-medium text-[var(--muted)]">
-                        {new Date(u.createdAt).toLocaleDateString(undefined, { year: 'numeric', month: 'short', day: 'numeric' })}
                       </td>
                       <td className="px-6 py-4 text-right" onClick={(e) => e.stopPropagation()}>
                         <RoleDropdown
@@ -328,60 +324,55 @@ export default function UsersTab() {
 
             {/* MOBILE LIST */}
             <div className="lg:hidden space-y-3">
-              {users.map((u, idx) => (
+               {users.map((u, idx) => (
                 <motion.div
                   key={u._id}
                   initial={{ opacity: 0, scale: 0.98 }}
                   animate={{ opacity: 1, scale: 1 }}
                   transition={{ delay: idx * 0.03 }}
                   onClick={() => setSelectedUser(u)}
-                  className="p-5 rounded-[1.5rem] border border-[var(--border)] bg-[var(--card)] active:bg-[var(--foreground)]/[0.04] transition-all relative"
+                  className="relative p-4 rounded-2xl border border-[var(--border)] bg-[var(--card)] active:bg-[var(--foreground)]/[0.04] transition-all group"
                 >
-                  <div className="flex justify-between items-start mb-4">
-                    <div className="flex items-center gap-3">
-                      <Avatar user={u} />
+                  <div className="flex justify-between items-center mb-3 relative">
+                    <div className="flex items-center gap-2.5 min-w-0">
+                      <Avatar user={u} size="sm" />
                       <div className="min-w-0">
-                        <p className="font-semibold text-[var(--foreground)] text-sm truncate">{u.name}</p>
-                        <p className="text-[11px] text-[var(--muted)]/60 font-mono truncate">{u.userId}</p>
+                        <p className="font-bold text-[var(--foreground)] text-[11px] uppercase tracking-tight truncate">{u.name}</p>
+                        <p className="text-[10px] text-[var(--muted)]/60 font-medium truncate lowercase">{u.email}</p>
                       </div>
                     </div>
-                    <span className={`inline-flex items-center gap-1.5 px-4 py-1.5 rounded-full border text-[10px] font-semibold capitalize ${getRoleClass(u.userType)}`}>
+                    <span className={`inline-flex items-center gap-1.5 px-3 py-1 rounded-lg border text-[9px] font-black uppercase tracking-wider shrink-0 ${getRoleClass(u.userType)}`}>
                       {getRoleIcon(u.userType)}
                       {u.userType}
                     </span>
                   </div>
 
-                  <div className="space-y-3">
-                    <div className="space-y-1">
-                      <div className="flex items-center gap-2 text-[var(--muted)]">
-                        <Mail size={12} className="shrink-0" />
-                        <span className="text-xs truncate">{u.email}</span>
-                      </div>
-                      {u.phone && (
-                        <div className="flex items-center gap-2 text-[var(--muted)]">
-                          <Phone size={12} className="shrink-0" />
-                          <span className="text-xs">{u.phone}</span>
-                        </div>
-                      )}
+                  <div className="space-y-3 relative">
+                    <div className="flex items-center justify-between gap-4 py-2 px-3 rounded-xl bg-[var(--foreground)]/[0.02] border border-[var(--border)]/50">
+                       <div className="flex items-center gap-1.5 text-[var(--muted)]/40">
+                         <IdCard size={10} />
+                         <span className="text-[9px] font-mono font-black uppercase tracking-tighter truncate max-w-[100px]">{u.userId}</span>
+                       </div>
+                       <div className="flex items-center gap-1.5 text-[var(--muted)]/40">
+                         <Calendar size={10} />
+                         <span className="text-[9px] font-bold">{new Date(u.createdAt).toLocaleDateString()}</span>
+                       </div>
                     </div>
 
-                    <div className="flex items-center justify-between gap-4 pt-1" onClick={(e) => e.stopPropagation()}>
-                      <div className="flex items-center gap-2 text-[var(--muted)]/60">
-                        <Calendar size={12} />
-                        <span className="text-xs">{new Date(u.createdAt).toLocaleDateString()}</span>
+                    <div className="flex items-center justify-between gap-4" onClick={(e) => e.stopPropagation()}>
+                      <div className="flex flex-col">
+                        <span className="text-[8px] font-bold text-[var(--muted)]/40 uppercase tracking-widest leading-none">Last Active</span>
+                        <span className="text-[10px] font-black text-[var(--accent)] mt-1 whitespace-nowrap">
+                          {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleDateString() : "Never"}
+                        </span>
                       </div>
-                      <div className="flex items-center gap-2 text-[var(--accent)]/60">
-                        <RefreshCcw size={10} />
-                        <span className="text-[10px] font-medium">Active: {u.lastLoginAt ? new Date(u.lastLoginAt).toLocaleDateString() : "Never"}</span>
-                      </div>
+                      <RoleDropdown
+                        value={u.userType}
+                        compact
+                        disabled={updatingUserId === u.userId || u.userType === "owner"}
+                        onChange={(v) => changeUserRole(u.userId, v)}
+                      />
                     </div>
-
-                    <RoleDropdown
-                      value={u.userType}
-                      compact
-                      disabled={updatingUserId === u.userId || u.userType === "owner"}
-                      onChange={(v) => changeUserRole(u.userId, v)}
-                    />
                   </div>
                 </motion.div>
               ))}
@@ -658,7 +649,7 @@ function RoleDropdown({ value, onChange, disabled, compact }) {
             initial={{ opacity: 0, scale: 0.95, y: -10 }}
             animate={{ opacity: 1, scale: 1, y: 5 }}
             exit={{ opacity: 0, scale: 0.95, y: -10 }}
-            className="absolute z-[1200] right-0 mt-1 w-full min-w-[150px] rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-2xl p-1.5 overflow-hidden backdrop-blur-xl"
+            className="absolute z-[2000] right-0 bottom-full mb-1 w-full min-w-[150px] rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-2xl p-1.5 overflow-hidden backdrop-blur-xl"
           >
             {roles.map((role) => (
               <button
@@ -741,12 +732,12 @@ function DrawerDetail({ label, value }) {
 
 function StatItem({ label, value, loading }) {
   return (
-    <div className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-xl p-3 flex flex-col items-center justify-center relative overflow-hidden">
-      <span className="text-[10px] font-bold text-[var(--muted)] opacity-60 uppercase">{label}</span>
+    <div className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-lg p-2 flex flex-col items-center justify-center relative overflow-hidden">
+      <span className="text-[8px] font-black text-[var(--muted)]/40 uppercase mb-0.5">{label}</span>
       {loading ? (
-        <div className="h-6 w-10 bg-[var(--foreground)]/[0.05] animate-pulse rounded mt-0.5" />
+        <div className="h-4 w-8 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
       ) : (
-        <span className="text-lg font-black text-[var(--foreground)] tracking-tight">{value}</span>
+        <span className="text-sm font-black text-[var(--foreground)] tracking-tighter tabular-nums">{value}</span>
       )}
     </div>
   );

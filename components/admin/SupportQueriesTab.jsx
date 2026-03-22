@@ -175,7 +175,7 @@ export default function SupportQueriesTab() {
       </div>
 
       {/* ================= STATS CARDS ================= */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+      <div className="flex flex-col gap-2">
         <QueryStatCard
           label="Total Volume"
           items={[
@@ -472,21 +472,21 @@ function DetailBlock({ label, value, emphasize, icon }) {
 
 function QueryStatCard({ label, items, icon, color, loading }) {
   return (
-    <div className="p-5 rounded-[1.8rem] border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm space-y-4">
-      <div className={`flex items-center gap-2 ${color}`}>
-        <div className={`w-8 h-8 rounded-lg bg-current/10 flex items-center justify-center`}>
+    <div className="p-2.5 rounded-2xl border border-[var(--border)] bg-[var(--card)]/50 backdrop-blur-sm flex items-center gap-4 relative overflow-hidden group">
+      <div className={`flex items-center gap-2.5 min-w-[90px] md:min-w-[120px] shrink-0 ${color}`}>
+        <div className={`w-8 h-8 rounded-xl bg-current/10 flex items-center justify-center transition-transform group-hover:scale-110`}>
           {icon}
         </div>
-        <span className="text-[10px] font-black uppercase tracking-[0.2em]">{label}</span>
+        <span className="text-[10px] font-black uppercase tracking-wider opacity-80">{label}</span>
       </div>
-      <div className="grid grid-cols-3 gap-2">
+      <div className="flex-1 grid grid-cols-3 gap-2">
         {items.map((item, i) => (
-          <div key={i} className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-xl p-3 flex flex-col items-center justify-center relative overflow-hidden">
-            <span className="text-[9px] font-bold text-[var(--muted)]/40 uppercase mb-1">{item.label}</span>
+          <div key={i} className="bg-[var(--foreground)]/[0.03] border border-[var(--border)] rounded-lg p-2 flex flex-col items-center justify-center relative overflow-hidden">
+            <span className="text-[8px] font-black text-[var(--muted)]/40 uppercase mb-0.5">{item.label}</span>
             {loading ? (
-              <div className="h-5 w-10 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
+              <div className="h-4 w-8 bg-[var(--foreground)]/[0.05] animate-pulse rounded" />
             ) : (
-              <span className="text-sm font-black text-[var(--foreground)] tracking-tight tabular-nums">{item.value}</span>
+              <span className="text-sm font-black text-[var(--foreground)] tracking-tighter tabular-nums">{item.value}</span>
             )}
           </div>
         ))}
