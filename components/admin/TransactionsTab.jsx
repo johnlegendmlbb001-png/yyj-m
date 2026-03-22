@@ -323,17 +323,17 @@ export default function TransactionsTab() {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed right-0 top-0 h-full w-full max-w-lg bg-[var(--background)] border-l border-[var(--border)] shadow-2xl z-[1002] flex flex-col"
             >
-              <div className="p-8 border-b border-[var(--border)] bg-gradient-to-r from-[var(--foreground)]/[0.02] to-transparent">
-                <div className="flex items-start justify-between mb-8">
+              <div className="p-6 border-b border-[var(--border)] bg-gradient-to-r from-[var(--foreground)]/[0.02] to-transparent">
+                <div className="flex items-start justify-between mb-6">
                   <div className="space-y-1">
-                    <p className="text-[10px] font-bold text-[var(--accent)] uppercase tracking-widest">Transaction Details</p>
-                    <h3 className="text-2xl font-black uppercase italic tracking-tighter text-[var(--foreground)]">Summary</h3>
+                    <p className="text-[10px] font-bold text-[var(--accent)] uppercase tracking-widest leading-none">Order ID</p>
+                    <h3 className="text-base font-black uppercase italic tracking-tight text-[var(--foreground)] truncate max-w-[320px]">{selectedTx.orderId}</h3>
                   </div>
                   <button
                     onClick={() => setSelectedTx(null)}
-                    className="w-10 h-10 rounded-full bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--muted)]/40 hover:text-[var(--foreground)] hover:bg-red-500/20 transition-all"
+                    className="w-9 h-9 rounded-full bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--muted)]/40 hover:text-[var(--foreground)] hover:bg-red-500/20 transition-all"
                   >
-                    <X size={20} />
+                    <X size={18} />
                   </button>
                 </div>
 
@@ -354,7 +354,7 @@ export default function TransactionsTab() {
                 </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-8 space-y-10">
+              <div className="flex-1 overflow-y-auto p-6 space-y-10">
                 <DrawerSection icon={<Gamepad2 size={16} />} title="Item Details">
                   <DrawerDetail label="Game" value={selectedTx.gameSlug} emphasize />
                   <DrawerDetail label="Item Name" value={selectedTx.itemName} />
@@ -377,10 +377,6 @@ export default function TransactionsTab() {
                   <DrawerDetail label="Phone" value={selectedTx.phone || "UNLINKED"} />
                   <DrawerDetail label="Date" value={new Date(selectedTx.createdAt).toLocaleString()} />
                 </DrawerSection>
-
-                <div className="pt-6 border-t border-[var(--border)] opacity-20">
-                  <p className="text-[8px] font-mono uppercase tracking-[0.4em] text-center text-[var(--foreground)]">Order ID: {selectedTx.orderId.toUpperCase()}</p>
-                </div>
               </div>
             </motion.div>
           </>

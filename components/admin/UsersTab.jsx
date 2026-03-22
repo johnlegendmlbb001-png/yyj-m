@@ -431,34 +431,40 @@ export default function UsersTab() {
               transition={{ type: "spring", damping: 25, stiffness: 200 }}
               className="fixed right-0 top-0 h-full w-full max-w-lg bg-[var(--background)] border-l border-[var(--border)] shadow-2xl z-[1110] flex flex-col"
             >
-              <div className="p-8 border-b border-[var(--border)]">
-                <div className="flex items-start justify-between mb-8">
-                  <h3 className="text-xl font-bold text-[var(--foreground)]">User Details</h3>
+              <div className="p-6 border-b border-[var(--border)]">
+                <div className="flex items-center justify-between mb-6">
+                  <h3 className="text-lg font-bold text-[var(--foreground)]">User Details</h3>
                   <button
                     onClick={() => setSelectedUser(null)}
-                    className="w-10 h-10 rounded-full bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-red-500/10 transition-all outline-none"
+                    className="w-9 h-9 rounded-full bg-[var(--foreground)]/[0.05] flex items-center justify-center text-[var(--muted)] hover:text-[var(--foreground)] hover:bg-red-500/10 transition-all outline-none"
                   >
-                    <X size={20} />
+                    <X size={18} />
                   </button>
                 </div>
 
-                <div className="flex items-center gap-5">
+                <div className="flex items-center gap-4">
                   <div className="relative">
                     <Avatar user={selectedUser} size="lg" />
                   </div>
-                  <div className="min-w-0">
-                    <h4 className="text-lg font-bold text-[var(--foreground)] truncate">{selectedUser.name}</h4>
-                    <div className="flex items-center gap-2 mt-1">
-                      <span className={`px-2 py-0.5 rounded-md border text-[10px] font-semibold capitalize ${getRoleClass(selectedUser.userType)}`}>
-                        {selectedUser.userType}
-                      </span>
-                      <span className="text-[11px] text-[var(--muted)] font-mono">{selectedUser.userId}</span>
+                  <div className="min-w-0 flex-1">
+                    <h4 className="text-lg font-bold text-[var(--foreground)] truncate leading-tight">{selectedUser.name}</h4>
+                    <div className="flex items-center gap-2 mt-1 mb-3">
+                      <span className="text-[11px] text-[var(--muted)]/60 font-mono tracking-wider">{selectedUser.userId}</span>
                     </div>
+                    <RoleDropdown
+                      value={selectedUser.userType}
+                      compact
+                      direction="down"
+                      disabled={updatingUserId === selectedUser.userId || selectedUser.userType === "owner"}
+                      onChange={(v) => {
+                        changeUserRole(selectedUser.userId, v);
+                      }}
+                    />
                   </div>
                 </div>
               </div>
 
-              <div className="flex-1 overflow-y-auto p-8 space-y-10">
+              <div className="flex-1 overflow-y-auto p-6 space-y-8">
                 <DrawerSection icon={<IdCard size={18} />} title="User Information">
                   <DrawerDetail label="Full Name" value={selectedUser.name} />
                   <DrawerDetail label="User ID" value={selectedUser.userId} />
@@ -474,23 +480,6 @@ export default function UsersTab() {
                   <DrawerDetail label="Last Active" value={selectedUser.lastLoginAt ? new Date(selectedUser.lastLoginAt).toLocaleString() : "Never"} />
                   <DrawerDetail label="Last Known IP" value={selectedUser.lastLoginIp} />
                   <DrawerDetail label="Account Created" value={new Date(selectedUser.createdAt).toLocaleString()} />
-                </DrawerSection>
-
-                <DrawerSection icon={<Shield size={18} />} title="Manage Role">
-                  <div className="space-y-4 pt-2">
-                    <p className="text-xs font-semibold text-[var(--muted)] px-1">Change User Role</p>
-                    <RoleDropdown
-                      value={selectedUser.userType}
-                      disabled={updatingUserId === selectedUser.userId || selectedUser.userType === "owner"}
-                      onChange={(v) => {
-                        changeUserRole(selectedUser.userId, v);
-                        setSelectedUser(null);
-                      }}
-                    />
-                    {selectedUser.userType === "owner" && (
-                      <p className="text-[11px] text-rose-500 font-medium px-1 italic">Role is restricted and cannot be modified.</p>
-                    )}
-                  </div>
                 </DrawerSection>
               </div>
             </motion.div>
@@ -596,7 +585,7 @@ export default function UsersTab() {
 }
 
 /* ================= CUSTOM DROPDOWN ================= */
-function RoleDropdown({ value, onChange, disabled, compact }) {
+function RoleDropdown({ value, onChange, disabled, compact, direction = "up" }) {
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef(null);
 
@@ -646,10 +635,18 @@ function RoleDropdown({ value, onChange, disabled, compact }) {
       <AnimatePresence>
         {isOpen && (
           <motion.div
-            initial={{ opacity: 0, scale: 0.95, y: -10 }}
-            animate={{ opacity: 1, scale: 1, y: 5 }}
-            exit={{ opacity: 0, scale: 0.95, y: -10 }}
-            className="absolute z-[2000] right-0 bottom-full mb-1 w-full min-w-[150px] rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-2xl p-1.5 overflow-hidden backdrop-blur-xl"
+            initial={{ 
+              opacity: 0, 
+              scale: 0.95, 
+              y: direction === "up" ? -10 : 10 
+            }}
+            animate={{ opacity: 1, scale: 1, y: direction === "up" ? 5 : 5 }}
+            exit={{ 
+              opacity: 0, 
+              scale: 0.95, 
+              y: direction === "up" ? -10 : 10 
+            }}
+            className={`absolute z-[2000] right-0 ${direction === "up" ? "bottom-full mb-1" : "top-full mt-1"} w-full min-w-[150px] rounded-xl border border-[var(--border)] bg-[var(--card)] shadow-2xl p-1.5 overflow-hidden backdrop-blur-xl`}
           >
             {roles.map((role) => (
               <button
