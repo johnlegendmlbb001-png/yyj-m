@@ -4,6 +4,22 @@ import { connectDB } from "@/lib/mongodb";
 import PricingConfig from "@/models/PricingConfig";
 import { unstable_cache } from 'next/cache';
 
+const ALLOWED_GAME_SLUGS = [
+  "mobile-legends988",
+  "mlbb-double332",
+  "sgmy-mlbb893",
+  "magic-chess-gogo-india924",
+  "mlbb-indo42",
+  "mlbb-russia953",
+  "pubg-mobile138",
+  "genshin-impact742",
+  "honor-of-kings57",
+  "wuthering-of-waves464",
+  "where-winds-meet280",
+  "mlbb-smallphp980",
+  "weeklymonthly-bundle931",
+];
+
 const getCachedPricingConfig = unstable_cache(
   async (role) => {
     await connectDB();
@@ -247,6 +263,13 @@ export async function GET(req, { params }) {
     const pricingRole = resolvePricingRole(userType);
 
     /* ===== FETCH BASE GAME ===== */
+    if (!ALLOWED_GAME_SLUGS.includes(slug)) {
+      return NextResponse.json(
+        { success: false, message: "Game not found or restricted" },
+        { status: 404 }
+      );
+    }
+
     const response = await fetch(
       `https://game-off-ten.vercel.app/api/v1/game/${slug}`,
       {
